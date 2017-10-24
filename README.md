@@ -6,6 +6,11 @@ Website content so far:
   * View entire website album inventory on the home page
   * View details of each album on the album's detail page e.g Album title
   * CRUD operations on album objects using class based Model forms i.e CreateView, DeleteView, Update View
+  
 
 * HTML template inheritance hiearchary: Base HTML -> Homepage HTML (All albums)
                                         Base HTML -> Album details HTML (Album details)
+
+
+TO DO: Add a song details page, enlisting all the songs within an album
+
