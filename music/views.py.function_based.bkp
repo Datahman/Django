@@ -1,0 +1,40 @@
+from django.http import HttpResponse
+from .models import Album, Song
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404
+def index(request):
+	all_albums = Album.objects.all()
+	""" context: Info. template needs i.e the variable to be handed over """
+	return render(request,'music/index.html',{'all_albums' : all_albums})
+
+
+""" The response function."""
+
+def detail(request, album_id):
+	album = get_object_or_404(Album,pk=album_id)
+	"""try:
+		album = Album.objects.get(pk=album_id)
+	except Album.DoesNotExist:
+		raise Http404("Album not found")"""
+	return render(request,'music/detail.html',{'album':album})
+
+""" Function to handle the favorite form (POST- operation) """
+""" From the favorite form pick the value aka song.id of the POST dictionary key['song']"""
+
+def favorite(request, album_id):
+	album = get_object_or_404(Album, pk=album_id)
+	try:
+		selected_song = album.song_set.get(pk=request.POST['song'])
+
+	except (KeyError, Song.DoesNotExist):
+		return render(render, 'music.detail.html', {'album':album,
+													'error_message': "You have not picked the right selection" } )
+	else:
+		if selected_song.is_favorite:
+
+			selected_song.is_favorite = False
+			selected_song.save()
+		else:
+			selected_song.is_favorite = True
+			selected_song.save()
+		return render(request,'music/detail.html',{'album':album})
